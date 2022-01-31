@@ -1,40 +1,28 @@
 {
-  "name": "forien-easy-polls",
-  "title": "Forien's Easy Polls",
-  "description": "Create polls through the chat and let your players vote.",
-  "author": "Forien — Forien#2130",
-  "authors": [
-    {
-      "name": "Forien",
-      "url": "https://www.patreon.com/forien"
-    }
-  ],
-  "version": "0.1.2",
-  "minimumCoreVersion": "0.6.0",
-  "compatibleCoreVersion": "0.6.5",
-  "url": "https://github.com/Forien/foundryvtt-forien-easy-polls",
-  "manifest": "https://raw.githubusercontent.com/Forien/foundryvtt-forien-easy-polls/master/module.json",
-  "download": "https://github.com/Forien/foundryvtt-forien-easy-polls/releases/download/v0.1.2/v0.1.2.zip",
-  "readme": "https://github.com/Forien/foundryvtt-forien-easy-polls/blob/v0.1.2/README.md",
-  "changelog": "https://github.com/Forien/foundryvtt-forien-easy-polls/blob/v0.1.2/changelog.md",
-  "bugs": "https://github.com/Forien/foundryvtt-forien-easy-polls/issues",
-  "languages": [
-    {
-      "lang": "en",
-      "name": "English",
-      "path": "lang/en.json"
-    },
-    {
-      "lang": "pl",
-      "name": "Polski",
-      "path": "lang/pl.json"
-    }
-  ],
-  "esmodules": [
-    "./modules/init.js"
-  ],
-  "styles": [
-    "./styles/style.css"
-  ],
-  "socket": true
+	"name": "easy-polls",
+	"title": "Easy Polls",
+	"description": "Create polls through the chat and let your players vote.",
+	"author": "Matheus Clemente - mclemente#5524",
+	"version": "1.0",
+	"minimumCoreVersion": "9",
+	"compatibleCoreVersion": "9",
+	"url": "https://github.com/mclemente/foundryvtt-easy-polls",
+	"manifest": "https://github.com/mclemente/foundryvtt-easy-polls/releases/latest/download/module.json",
+	"download": "https://github.com/mclemente/foundryvtt-easy-polls/releases/latest/download/module.zip",
+	"bugs": "https://github.com/mclemente/foundryvtt-easy-polls/issues",
+	"languages": [
+		{
+			"lang": "en",
+			"name": "English",
+			"path": "lang/en.json"
+		},
+		{
+			"lang": "pl",
+			"name": "Polski",
+			"path": "lang/pl.json"
+		}
+	],
+	"esmodules": ["./modules/init.js"],
+	"styles": ["./styles/style.css"],
+	"socket": true
 }

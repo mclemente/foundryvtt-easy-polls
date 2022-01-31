@@ -1,6 +1,6 @@
 let constants = {
-  modulePath: "modules/forien-easy-polls",
-  moduleName: "forien-easy-polls",
-  moduleLabel: "Forien's Easy Polls"
+	modulePath: "modules/easy-polls",
+	moduleName: "easy-polls",
+	moduleLabel: "Easy Polls",
 };
 export default constants;
