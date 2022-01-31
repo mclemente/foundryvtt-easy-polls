@@ -98,8 +98,10 @@ export default class PollCommand {
 	static async createPoll(content) {
 		let parts = content.split(/\n/);
 		parts = parts.map((s) => s.trim()).filter((s) => s.length);
+		let type = "normal";
+		if (pollTypes.includes(parts[0].toLowerCase())) type = parts.shift().toLowerCase();
 		let question = parts.shift();
 
-		return Poll.create({ question, parts });
+		return Poll.create({ question, parts, type });
 	}
 }
