@@ -11,6 +11,7 @@ export default class Poll extends ChatMessage {
 				return { label: p, percent: 0, count: 0 };
 			}),
 			answers: [],
+			type: data.type,
 		};
 		let message = await renderTemplate(`${constants.modulePath}/templates/poll.html`, data);
 
@@ -89,8 +90,6 @@ export default class Poll extends ChatMessage {
 	}
 
 	static async recalculate(data) {
-		console.log(data);
-		// remove reference;
 		data = duplicate(data);
 
 		data.total = data.answers.filter((a) => a.status).length;
