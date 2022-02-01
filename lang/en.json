@@ -7,6 +7,14 @@
 			"NoGM": "There is no active Gamer Master online. Game Master's presence is required to vote."
 		},
 
+		"Dialog": {
+			"title": "Create Easy Poll",
+			"PollTitle": "Poll Title",
+			"GeneralPoll": "General Poll",
+			"option": "Option {number}",
+			"addOption": "Add Options"
+		},
+
 		"Settings": {},
 
 		"console": {
