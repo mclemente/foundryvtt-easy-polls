@@ -40,7 +40,7 @@ function createDialog(data = {}) {
 				},
 			},
 			callback: () => {},
-			// default: "create",
+			default: "create",
 			content: `<table id="df_macro_poll_create" style="margin-top: 0">
 						<thead>
 							<input type="text" id="df_macro_poll_create_title" placeholder="${game.i18n.localize("EasyPolls.Dialog.PollTitle")}"
@@ -114,13 +114,13 @@ export default class PollCommand {
 				if (pollTypes.includes(parts[0].toLowerCase())) type = parts.shift().toLowerCase();
 				data.question = data.parts.shift();
 
-				createDialog(data);
+				setTimeout(() => createDialog(data), 0);
 				return false;
 			} else {
 				pollRegex = new RegExp("^(\\/p(?:oll)?)", "i");
 				match = messageText.match(pollRegex);
 				if (match) {
-					createDialog();
+					setTimeout(() => createDialog(), 0);
 					return false;
 				}
 			}
