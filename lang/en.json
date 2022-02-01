@@ -7,12 +7,7 @@
 			"NoGM": "There is no active Gamer Master online. Game Master's presence is required to vote."
 		},
 
-		"Settings": {
-			"playersWelcomeScreen": {
-				"Enable": "Display Welcome Screen to Players",
-				"EnableHint": "Uncheck to prevent players from seeing Welcome Screen on log in after an update."
-			}
-		},
+		"Settings": {},
 
 		"console": {
 			"__COMMENT__": "Messages below are not typically expected to be seen by playes",
