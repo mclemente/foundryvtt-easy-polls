@@ -1,12 +1,16 @@
 <h2>{{question}}:</h2>
-<div class="answers">
+<div class="answers" data-type="{{type}}">
 	{{#if results}} {{#each parts}}
 	<div class="answer">
 		<div class="bar-container">
 			<div class="bar" style="width: {{this.percent}}%"></div>
 			<div class="answer-data">
 				<span class="label">{{this.label}}</span>
-				<span class="count">{{this.count}}</span>
+				<span class="count"
+				{{#if (or (eq ../voteType "normal") ../isGM ) }}
+				title="{{#each this.voters}}{{name}}{{#if charname}} ({{charname}}){{/if}}{{#unless @last}}, {{/unless}}{{/each}}"
+				{{/if}}
+				>{{this.count}}</span>
 			</div>
 		</div>
 	</div>
@@ -14,7 +18,7 @@
 	<label><input type="checkbox" data-answer="{{this.label}}" data-poll="{{../poll}}" {{checked checked}} /> {{this.label}}</label>
 	{{/each}} {{/if}}
 </div>
-{{#unless isGM}}
+{{#unless (or isGM (eq resultType "gm"))}}
 <button class="toggle" data-poll="{{poll}}">{{localize "EasyPolls.ToggleResults"}}</button>
 {{/unless}}
 <div class="stats">

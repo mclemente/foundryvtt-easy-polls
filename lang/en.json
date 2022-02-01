@@ -12,7 +12,28 @@
 			"PollTitle": "Poll Title",
 			"GeneralPoll": "General Poll",
 			"option": "Option {number}",
-			"addOption": "Add Options"
+			"addOption": "Add Options",
+			"ResultType": {
+				"name": "Result Type",
+				"options": {
+					"1": "Shown to Players",
+					"2": "GM Only"
+				}
+			},
+			"VoteType": {
+				"name": "Vote Type",
+				"options": {
+					"1": "Open Ballot",
+					"2": "Secret Ballot"
+				}
+			}
+		},
+
+		"Keybindings": {
+			"CreatePoll": {
+				"name": "Create Poll",
+				"hint": "Opens the Dialog for creating a poll."
+			}
 		},
 
 		"Settings": {},

@@ -11,7 +11,9 @@ export default class Poll extends ChatMessage {
 				return { label: p, percent: 0, count: 0 };
 			}),
 			answers: [],
-			type: data.type,
+			voteType: data.voteType,
+			voteNumber: data.voteNumber,
+			resultType: data.resultType,
 		};
 		let message = await renderTemplate(`${constants.modulePath}/templates/poll.html`, data);
 
@@ -40,6 +42,10 @@ export default class Poll extends ChatMessage {
 			let answer = data.answers.find((a) => a.user === game.user.id && a.label === p.label);
 			p.checked = answer ? answer.status : false;
 		});
+		if (data?.type) delete data.type;
+		if (!data?.voteType) data.voteType = "normal";
+		if (!data?.voteNumber) data.voteNumber = "multiple";
+		if (!data?.resultType) data.resultType = "open";
 
 		let newHtml = await renderTemplate(`${constants.modulePath}/templates/poll.html`, data);
 		$(html).find(".message-content").html(newHtml);
@@ -94,8 +100,13 @@ export default class Poll extends ChatMessage {
 
 		data.total = data.answers.filter((a) => a.status).length;
 		data.parts.forEach((p) => {
-			p.count = data.answers.filter((a) => p.label === a.label && a.status === true).length;
-			p.percent = Math.round((p.count / data.total) * 100);
+			const votes = data.answers.filter((a) => p.label === a.label && a.status === true);
+			p.count = votes.length;
+			p.percent = Math.round((p.count / data.total || 0) * 100);
+			p.voters = votes.map((a) => {
+				let user = game.users.get(a.user);
+				return { id: user.id, name: user.data.name, charname: user.charname, color: user.data.color };
+			});
 		});
 
 		return data;
