@@ -75,7 +75,7 @@ function createDialog(data = {}) {
 				if (data?.parts) {
 					data.parts.forEach((part) => {
 						const t = table.find(".df_macro_poll_create_numeral").length + 1;
-						const l = `<tr>\n\t\t
+						const l = $(`<tr>\n\t\t
 							<td class="df_macro_poll_create_numeral">${t}.</td>\n\t\t
 							<td>
 								<input class="df_macro_poll_create_option" type="text" placeholder="${game.i18n.format("EasyPolls.Dialog.option", { number: t })}" value="${part}" />
@@ -83,8 +83,11 @@ function createDialog(data = {}) {
 							<td>
 								<button class="df_macro_poll_create_delete"><i class="fas fa-times"></i></button>
 							</td>\n\t
-						</tr>`;
+						</tr>`);
 						table.append(l);
+						l.find(".df_macro_poll_create_delete").click(() => {
+							dialog.setPosition({ height: dialog.position.height - l.height() }), l.remove(), processOptions();
+						});
 					});
 					first ? (first = !1) : (dialog.setPosition({ height: dialog.position.height + l.height() }), processOptions());
 				} else {
