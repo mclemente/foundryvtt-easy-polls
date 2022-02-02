@@ -33,6 +33,20 @@
 			"CreatePoll": {
 				"name": "Create Poll",
 				"hint": "Opens the Dialog for creating a poll."
+			},
+			"QuickPolls": {
+				"name": "Craete Quick Polls",
+				"hint": "Opens a Dialog for creating a poll using a template."
+			}
+		},
+
+		"QuickPolls": {
+			"title": "Create Quick Poll",
+			"Poll": "Poll",
+			"yn": {
+				"name": "Yes or No",
+				"Yes": "Yes",
+				"No": "No"
 			}
 		},
 

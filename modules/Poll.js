@@ -11,9 +11,9 @@ export default class Poll extends ChatMessage {
 				return { label: p, percent: 0, count: 0 };
 			}),
 			answers: [],
-			voteType: data.voteType,
-			voteNumber: data.voteNumber,
-			resultType: data.resultType,
+			voteType: data?.voteType || "normal",
+			voteNumber: data?.voteNumber || "multiple",
+			resultType: data?.resultType || "open",
 		};
 		let message = await renderTemplate(`${constants.modulePath}/templates/poll.html`, data);
 

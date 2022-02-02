@@ -1,7 +1,6 @@
 import Poll from "./Poll.js";
 import constants from "./constants.mjs";
-
-const pollTypes = ["public", "secret", "normal"];
+import { QuickPolls } from "./utility/QuickPolls.js";
 
 export function createDialog(data = {}) {
 	let dialogHtml = null,
@@ -107,7 +106,7 @@ export function createDialog(data = {}) {
 					});
 					first ? (first = !1) : (dialog.setPosition({ height: dialog.position.height + l.height() }), processOptions());
 				});
-				if (data?.parts) {
+				if (data?.parts?.length) {
 					data.parts.forEach((part) => {
 						const t = table.find(".df_macro_poll_create_numeral").length + 1;
 						const l = $(`<tr>\n\t\t
@@ -134,30 +133,122 @@ export function createDialog(data = {}) {
 	).render(!0);
 }
 
+export function quickPollMenu() {
+	let dialogHtml = null,
+		table = null,
+		dialog = null,
+		select = null;
+	dialog = new Dialog(
+		{
+			title: game.i18n.localize(`EasyPolls.QuickPolls.title`),
+			label: "create",
+			buttons: {
+				create: {
+					icon: '<i class="fas fa-check"></i>',
+					label: game.i18n.localize("Create"),
+					callback: (t) => {
+						const poll = QuickPolls[(t = $(t)).find("#df_macro_poll_create_select").val()];
+						const question = (t = $(t)).find("#df_macro_poll_create_title").val() || poll.question;
+						const parts = poll.parts;
+						const voteType = document.querySelector('input[name="voteType"]:checked').value;
+						const voteNumber = "multiple"; //document.querySelector('input[name="voteNumber"]:checked').value;
+						const resultType = document.querySelector('input[name="resultType"]:checked').value;
+						Poll.create({ question, parts, voteType, voteNumber, resultType });
+					},
+				},
+			},
+			callback: () => {},
+			default: "create",
+			content: `<table id="df_macro_poll_create" style="margin-top: 0">
+						<thead>
+							<input type="text" id="df_macro_poll_create_title" placeholder="${game.i18n.localize("EasyPolls.Dialog.PollTitle")}" style="margin-bottom: 0.5em;">
+							<div>
+								<div style="float: left; width:50%;">
+									${game.i18n.localize("EasyPolls.Dialog.ResultType.name")}
+									<div>
+										<input type="radio" id="r1" name="resultType" value="open" checked>
+										<label for="r1">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.1")}</label>
+									</div>
+									<div>
+										<input type="radio" id="r2" name="resultType" value="gm">
+										<label for="r2">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.2")}</label>
+									</div>
+								</div>
+								<!--
+								<div style="float: left; width:33%;">
+									Number of Votes
+									<div>
+										<input type="radio" id="vn1" name="voteNumber" value="single" checked>
+										<label for="vn1">Single Vote</label>
+									</div>
+									<div>
+										<input type="radio" id="vn2" name="voteNumber" value="multiple">
+										<label for="vn2">Multiple Votes</label>
+									</div>
+								</div>
+								-->
+								<div style="float: right; width:50%;">
+									${game.i18n.localize("EasyPolls.Dialog.VoteType.name")}
+									<div>
+										<input type="radio" id="v1" name="voteType" value="normal" checked>
+										<label for="v1" title="Voters are shown to players">${game.i18n.localize("EasyPolls.Dialog.VoteType.options.1")}</label>
+									</div>
+									<div>
+										<input type="radio" id="v2" name="voteType" value="secret">
+										<label for="v2" title="Voters are hidden from players">${game.i18n.localize("EasyPolls.Dialog.VoteType.options.2")}</label>
+									</div>
+								</div>
+							</div>
+							<span>Template</span><select name="polls" id="df_macro_poll_create_select" style="width: calc(100% - 2px); margin-bottom: 0.5em;">
+						</thead>
+					</table>`,
+			render: (t) => {
+				dialogHtml = $(t);
+				table = dialogHtml.find("#df_macro_poll_create");
+				select = dialogHtml.find("#df_macro_poll_create_select");
+				Object.keys(QuickPolls).forEach((part) => {
+					const t = table.find(".df_macro_poll_create_numeral").length + 1;
+					const l = $(`<option class="df_macro_poll_create_option" type="text" value="${part}" /> ${game.i18n.localize(QuickPolls[part].name)}</option>`);
+					select.append(l);
+				});
+			},
+		},
+		{ resizable: !0 }
+	).render(!0);
+}
+
 export class PollCommand {
 	static registerCommand() {
 		Hooks.on("chatMessage", (chatLog, messageText, chatData) => {
-			let pollRegex = new RegExp("^(\\/p(?:oll)? )", "i");
+			let pollRegex = new RegExp("^(\\/p(?:oll)?(?: )?-)", "i");
 			let match = messageText.match(pollRegex);
+			if (match) {
+				let content = messageText.replace(match[1], "");
+				let command = content.split(/\n/)[0];
+				let data = {};
+				if (QuickPolls[command]) {
+					data = {
+						parts: QuickPolls[command].parts.map((part) => {
+							return game.i18n.localize(part);
+						}),
+						question: game.i18n.localize(QuickPolls[command].question),
+					};
+				}
+				setTimeout(() => createDialog(data), 0);
+				return false;
+			}
 
+			pollRegex = new RegExp("^(\\/p(?:oll)?(?: )?)", "i");
+			match = messageText.match(pollRegex);
 			if (match) {
 				let content = messageText.replace(match[1], "");
 				let data = {};
 				let parts = content.split(/\n/);
 				data.parts = parts.map((s) => s.trim()).filter((s) => s.length);
-				data.type = "normal";
-				if (pollTypes.includes(parts[0].toLowerCase())) data.type = parts.shift().toLowerCase();
 				data.question = data.parts.shift();
 
 				setTimeout(() => createDialog(data), 0);
 				return false;
-			} else {
-				pollRegex = new RegExp("^(\\/p(?:oll)?)", "i");
-				match = messageText.match(pollRegex);
-				if (match) {
-					setTimeout(() => createDialog(), 0);
-					return false;
-				}
 			}
 		});
 
@@ -174,15 +265,5 @@ export class PollCommand {
 		const poll = new RegExp("^(\\/p(?:oll)? )", "i");
 
 		return messageText.match(poll);
-	}
-
-	static async createPoll(content) {
-		let parts = content.split(/\n/);
-		parts = parts.map((s) => s.trim()).filter((s) => s.length);
-		let type = "normal";
-		if (pollTypes.includes(parts[0].toLowerCase())) type = parts.shift().toLowerCase();
-		let question = parts.shift();
-
-		return Poll.create({ question, parts, type });
 	}
 }
