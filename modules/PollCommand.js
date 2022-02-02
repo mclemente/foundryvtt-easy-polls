@@ -156,6 +156,14 @@ export function quickPollMenu() {
 						Poll.create({ question, parts, voteType, voteNumber, resultType });
 					},
 				},
+				edit: {
+					icon: '<i class="fas fa-edit"></i>',
+					label: game.i18n.localize("Edit"),
+					callback: (t) => {
+						const poll = QuickPolls[(t = $(t)).find("#df_macro_poll_create_select").val()];
+						createDialog(poll);
+					},
+				},
 			},
 			callback: () => {},
 			default: "create",
@@ -225,15 +233,7 @@ export class PollCommand {
 			if (match) {
 				let content = messageText.replace(match[1], "");
 				let command = content.split(/\n/)[0];
-				let data = {};
-				if (QuickPolls[command]) {
-					data = {
-						parts: QuickPolls[command].parts.map((part) => {
-							return game.i18n.localize(part);
-						}),
-						question: game.i18n.localize(QuickPolls[command].question),
-					};
-				}
+				let data = QuickPolls[command] ?? {};
 				setTimeout(() => createDialog(data), 0);
 				return false;
 			}
