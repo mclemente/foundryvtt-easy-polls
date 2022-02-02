@@ -35,7 +35,7 @@
 				"hint": "Opens the Dialog for creating a poll."
 			},
 			"QuickPolls": {
-				"name": "Craete Quick Polls",
+				"name": "Create Quick Poll",
 				"hint": "Opens a Dialog for creating a poll using a template."
 			}
 		},
