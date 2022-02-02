@@ -32,7 +32,7 @@
 		"Keybindings": {
 			"CreatePoll": {
 				"name": "Create Poll",
-				"hint": "Opens the Dialog for creating a poll."
+				"hint": "Opens a Dialog for creating a poll."
 			},
 			"QuickPolls": {
 				"name": "Create Quick Poll",
