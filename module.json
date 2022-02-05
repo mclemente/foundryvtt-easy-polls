@@ -20,6 +20,11 @@
 			"lang": "pl",
 			"name": "Polski",
 			"path": "lang/pl.json"
+		},
+		{
+			"lang": "pt-BR",
+			"name": "Português (Brasil)",
+			"path": "lang/pt-BR.json"
 		}
 	],
 	"esmodules": ["./modules/init.js"],
