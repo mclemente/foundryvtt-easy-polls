@@ -44,9 +44,7 @@
 			"title": "Create Quick Poll",
 			"Poll": "Poll",
 			"yn": {
-				"name": "Yes or No",
-				"Yes": "Yes",
-				"No": "No"
+				"name": "Yes or No"
 			}
 		},
 
