@@ -1,0 +1,53 @@
+{
+	"EasyPolls": {
+		"CountAnswered": "Total de Respostas",
+		"ToggleResults": "Resultados",
+
+		"Notifications": {
+			"NoGM": "Não há nenhum Mestre online. A presença de um Mestre é necessária para votar."
+		},
+
+		"Dialog": {
+			"title": "Criar Votação Fácil",
+			"PollTitle": "Título da Votação",
+			"GeneralPoll": "Votação Genérica",
+			"option": "Opção {number}",
+			"addOption": "Adicionar Opções",
+			"ResultType": {
+				"name": "Tipo do Resultado",
+				"options": {
+					"1": "Mostrar aos Jogadores",
+					"2": "Apenas GM"
+				}
+			},
+			"VoteType": {
+				"name": "Tipo de Voto",
+				"options": {
+					"1": "Voto Aberto",
+					"2": "Voto Secreto"
+				}
+			}
+		},
+
+		"Keybindings": {
+			"CreatePoll": {
+				"name": "Criar Votação",
+				"hint": "Abre uma janela para criar uma votação."
+			},
+			"QuickPolls": {
+				"name": "Criar Votação Rápida",
+				"hint": "Abre uma janela para criar votações usando um modelo."
+			}
+		},
+
+		"QuickPolls": {
+			"title": "Criar Votação Rápida",
+			"Poll": "Votação",
+			"yn": {
+				"name": "Sim ou Não"
+			}
+		},
+
+		"Settings": {}
+	}
+}
