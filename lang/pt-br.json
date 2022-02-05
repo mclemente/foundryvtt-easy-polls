@@ -1,7 +1,7 @@
 {
 	"EasyPolls": {
 		"CountAnswered": "Total de Respostas",
-		"ToggleResults": "Mostrar/Esconder Resultados",
+		"ToggleResults": "Resultados",
 
 		"Notifications": {
 			"NoGM": "Não há nenhum Mestre online. A presença de um Mestre é necessária para votar."
@@ -9,14 +9,14 @@
 
 		"Dialog": {
 			"title": "Criar Votação Fácil",
-			"PollTitle": "Títula da Votação",
+			"PollTitle": "Título da Votação",
 			"GeneralPoll": "Votação Genérica",
 			"option": "Opção {number}",
 			"addOption": "Adicionar Opções",
 			"ResultType": {
 				"name": "Tipo do Resultado",
 				"options": {
-					"1": "Mostrar oas Jogadores",
+					"1": "Mostrar aos Jogadores",
 					"2": "Apenas GM"
 				}
 			},
@@ -32,19 +32,22 @@
 		"Keybindings": {
 			"CreatePoll": {
 				"name": "Criar Votação",
-				"hint": "Abre a janela para criar uma votação."
+				"hint": "Abre uma janela para criar uma votação."
+			},
+			"QuickPolls": {
+				"name": "Criar Votação Rápida",
+				"hint": "Abre uma janela para criar votações usando um modelo."
 			}
 		},
 
-		"Settings": {},
-
-		"console": {
-			"__COMMENT__": "Messages below are not typically expected to be seen by playes",
-			"errors": {
-				"undefined-event": "API Error: Wrong Socket Event Received: {event}",
-				"noGM": "No active GMs, stopping execution!",
-				"noPoll": "Poll with ID {id} does not exist, or message is not a poll."
+		"QuickPolls": {
+			"title": "Criar Votação Rápida",
+			"Poll": "Votação",
+			"yn": {
+				"name": "Sim ou Não"
 			}
-		}
+		},
+
+		"Settings": {}
 	}
 }
