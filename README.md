@@ -43,6 +43,8 @@ If you wish to contact me for any reason, reach me out on Discord using my tag: 
 
 ## License
 
-Easy Polls is a fork of [Forien's Easy Polls](https://github.com/Forien/foundryvtt-forien-easy-polls), used under [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/). Easy Polls is licensed under [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/) by Matheus Clemente.
+Easy Polls is a fork of [Forien's Easy Polls](https://github.com/Forien/foundryvtt-forien-easy-polls), used under [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+
+Easy Polls is licensed under MIT License by Matheus Clemente.
 
 This work is licensed under Foundry Virtual Tabletop [EULA - Limited License Agreement for module development from February 17, 2021](https://foundryvtt.com/article/license/).
