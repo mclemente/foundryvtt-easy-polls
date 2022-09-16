@@ -14,7 +14,13 @@
 		</div>
 	</div>
 	{{/each}} {{else}} {{#each parts}}
-	<label><input type="checkbox" data-answer="{{this.label}}" data-poll="{{../poll}}" {{checked checked}} /> {{this.label}}</label>
+	<label>
+		{{#if (eq ../voteNumber "multiple")}}
+		<input type="checkbox" data-answer="{{this.label}}" data-poll="{{../poll}}" {{checked checked}} />
+		{{else}}
+		<input type="radio" style="width: 20px; height: 20px; margin: 3px 5px; top: 0" name="vote" data-answer="{{this.label}}" data-poll="{{../poll}}" {{checked checked}} />
+		{{/if}} {{this.label}}
+	</label>
 	{{/each}} {{/if}}
 </div>
 {{#unless (or isGM (eq resultType "gm"))}}

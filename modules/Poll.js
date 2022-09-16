@@ -58,6 +58,12 @@ export default class Poll extends ChatMessage {
 			let checked = event.currentTarget.checked;
 			Socket.sendAnswer(poll, answer, checked);
 		});
+		html.on("click", "input[type=radio]", (event) => {
+			let answer = event.currentTarget.dataset.answer;
+			let poll = event.currentTarget.dataset.poll;
+			let checked = event.currentTarget.checked;
+			Socket.sendAnswer(poll, answer, checked);
+		});
 
 		html.on("click", "button.toggle", async (event) => {
 			let poll = event.currentTarget.dataset.poll;

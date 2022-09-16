@@ -43,7 +43,7 @@ export function createDialog(data = {}) {
 							<input type="text" id="df_macro_poll_create_title" placeholder="${game.i18n.localize("EasyPolls.Dialog.PollTitle")}"
 							${data?.question ? `value="${data.question}"` : ""} style="margin-bottom: 0.5em;">
 							<div>
-								<div style="float: left; width:50%;">
+								<div style="float: left; width:33%;">
 									${game.i18n.localize("EasyPolls.Dialog.ResultType.name")}
 									<div>
 										<input type="radio" id="r1" name="resultType" value="open" checked>
@@ -54,7 +54,6 @@ export function createDialog(data = {}) {
 										<label for="r2">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.2")}</label>
 									</div>
 								</div>
-								<!--
 								<div style="float: left; width:33%;">
 									Number of Votes
 									<div>
@@ -66,8 +65,7 @@ export function createDialog(data = {}) {
 										<label for="vn2">Multiple Votes</label>
 									</div>
 								</div>
-								-->
-								<div style="float: right; width:50%;">
+								<div style="float: right; width:33%;">
 									${game.i18n.localize("EasyPolls.Dialog.VoteType.name")}
 									<div>
 										<input type="radio" id="v1" name="voteType" value="normal" ${data?.type == "normal" || !data?.type ? "checked" : ""}>
@@ -171,7 +169,7 @@ export function quickPollMenu() {
 						<thead>
 							<input type="text" id="df_macro_poll_create_title" placeholder="${game.i18n.localize("EasyPolls.Dialog.PollTitle")}" style="margin-bottom: 0.5em;">
 							<div>
-								<div style="float: left; width:50%;">
+								<div style="float: left; width:33%;">
 									${game.i18n.localize("EasyPolls.Dialog.ResultType.name")}
 									<div>
 										<input type="radio" id="r1" name="resultType" value="open" checked>
@@ -182,7 +180,6 @@ export function quickPollMenu() {
 										<label for="r2">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.2")}</label>
 									</div>
 								</div>
-								<!--
 								<div style="float: left; width:33%;">
 									Number of Votes
 									<div>
@@ -194,8 +191,7 @@ export function quickPollMenu() {
 										<label for="vn2">Multiple Votes</label>
 									</div>
 								</div>
-								-->
-								<div style="float: right; width:50%;">
+								<div style="float: right; width:33%;">
 									${game.i18n.localize("EasyPolls.Dialog.VoteType.name")}
 									<div>
 										<input type="radio" id="v1" name="voteType" value="normal" checked>
