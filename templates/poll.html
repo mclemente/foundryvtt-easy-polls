@@ -4,13 +4,12 @@
 	<div class="answer">
 		<div class="bar-container">
 			<div class="bar" style="width: {{this.percent}}%"></div>
-			<div class="answer-data">
-				<span class="label">{{this.label}}</span>
-				<span class="count"
+			<div class="answer-data"
 				{{#if (or (eq ../voteType "normal") ../isGM ) }}
 				title="{{#each this.voters}}{{name}}{{#if charname}} ({{charname}}){{/if}}{{#unless @last}}, {{/unless}}{{/each}}"
-				{{/if}}
-				>{{this.count}}</span>
+				{{/if}}">
+				<span class="label">{{this.label}}</span>
+				<span class="count">{{this.count}}</span>
 			</div>
 		</div>
 	</div>
