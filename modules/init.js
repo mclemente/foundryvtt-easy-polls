@@ -1,8 +1,8 @@
 import constants from "./constants.mjs";
-import registerSettings from "./settings.js";
 import { createDialog, PollCommand, quickPollMenu } from "./PollCommand.js";
-import { QuickPolls } from "./utility/QuickPolls.js";
+import registerSettings from "./settings.js";
 import Socket from "./Socket.js";
+import { QuickPolls } from "./utility/QuickPolls.js";
 
 Hooks.once("init", () => {
 	registerSettings();
@@ -37,7 +37,8 @@ Hooks.once("setup", () => {
 Hooks.once("ready", () => {
 	Object.keys(QuickPolls).forEach((poll) => {
 		Object.keys(QuickPolls[poll]).forEach((element) => {
-			if (typeof QuickPolls[poll][element] == "string") QuickPolls[poll][element] = game.i18n.localize(QuickPolls[poll][element]);
+			if (typeof QuickPolls[poll][element] == "string")
+				QuickPolls[poll][element] = game.i18n.localize(QuickPolls[poll][element]);
 			else if (Array.isArray(QuickPolls[poll][element])) {
 				QuickPolls[poll][element].forEach((part, i) => {
 					QuickPolls[poll][element][i] = game.i18n.localize(part);

@@ -1,5 +1,5 @@
-import Poll from "./Poll.js";
 import constants from "./constants.mjs";
+import Poll from "./Poll.js";
 import { QuickPolls } from "./utility/QuickPolls.js";
 
 export function createDialog(data = {}) {
@@ -24,7 +24,9 @@ export function createDialog(data = {}) {
 					icon: '<i class="fas fa-check"></i>',
 					label: game.i18n.localize("Create"),
 					callback: (t) => {
-						const question = (t = $(t)).find("#df_macro_poll_create_title").val() || game.i18n.localize(`EasyPolls.Dialog.GeneralPoll`);
+						const question =
+							(t = $(t)).find("#df_macro_poll_create_title").val() ||
+							game.i18n.localize(`EasyPolls.Dialog.GeneralPoll`);
 						const parts = [];
 						t.find(".df_macro_poll_create_option").each(function (t) {
 							parts.push($(this).val() || game.i18n.format(`EasyPolls.Dialog.option`, { number: t + 1 }));
@@ -73,7 +75,9 @@ export function createDialog(data = {}) {
 									</div>
 									<div>
 										<input type="radio" id="v2" name="voteType" value="secret" ${data?.type == "secret" ? "checked" : ""}>
-										<label for="v2" title="Voters are hidden from players">${game.i18n.localize("EasyPolls.Dialog.VoteType.options.2")}</label>
+										<label for="v2" title="Voters are hidden from players">${game.i18n.localize(
+											"EasyPolls.Dialog.VoteType.options.2",
+										)}</label>
 									</div>
 								</div>
 							</div>
@@ -91,18 +95,24 @@ export function createDialog(data = {}) {
 						`<tr>\n\t\t
 							<td class="df_macro_poll_create_numeral">${t}.</td>\n\t\t
 							<td>
-								<input class="df_macro_poll_create_option" type="text" placeholder="${game.i18n.format("EasyPolls.Dialog.option", { number: t })}" />
+								<input class="df_macro_poll_create_option" type="text" placeholder="${game.i18n.format("EasyPolls.Dialog.option", {
+									number: t,
+								})}" />
 							</td>\n\t\t
 							<td>
 								<button class="df_macro_poll_create_delete"><i class="fas fa-times"></i></button>
 							</td>\n\t
-						</tr>`
+						</tr>`,
 					);
 					table.append(l);
 					l.find(".df_macro_poll_create_delete").click(() => {
-						dialog.setPosition({ height: dialog.position.height - l.height() }), l.remove(), processOptions();
+						dialog.setPosition({ height: dialog.position.height - l.height() }),
+							l.remove(),
+							processOptions();
 					});
-					first ? (first = !1) : (dialog.setPosition({ height: dialog.position.height + l.height() }), processOptions());
+					first
+						? (first = !1)
+						: (dialog.setPosition({ height: dialog.position.height + l.height() }), processOptions());
 				});
 				if (data?.parts?.length) {
 					data.parts.forEach((part) => {
@@ -110,7 +120,9 @@ export function createDialog(data = {}) {
 						const l = $(`<tr>\n\t\t
 							<td class="df_macro_poll_create_numeral">${t}.</td>\n\t\t
 							<td>
-								<input class="df_macro_poll_create_option" type="text" placeholder="${game.i18n.format("EasyPolls.Dialog.option", { number: t })}" value="${part}" />
+								<input class="df_macro_poll_create_option" type="text" placeholder="${game.i18n.format("EasyPolls.Dialog.option", {
+									number: t,
+								})}" value="${part}" />
 							</td>\n\t\t
 							<td>
 								<button class="df_macro_poll_create_delete"><i class="fas fa-times"></i></button>
@@ -118,16 +130,20 @@ export function createDialog(data = {}) {
 						</tr>`);
 						table.append(l);
 						l.find(".df_macro_poll_create_delete").click(() => {
-							dialog.setPosition({ height: dialog.position.height - l.height() }), l.remove(), processOptions();
+							dialog.setPosition({ height: dialog.position.height - l.height() }),
+								l.remove(),
+								processOptions();
 						});
 					});
-					first ? (first = !1) : (dialog.setPosition({ height: dialog.position.height + l.height() }), processOptions());
+					first
+						? (first = !1)
+						: (dialog.setPosition({ height: dialog.position.height + l.height() }), processOptions());
 				} else {
 					dialogHtml.find("#df_macro_poll_add").click();
 				}
 			},
 		},
-		{ resizable: !0 }
+		{ resizable: !0 },
 	).render(!0);
 }
 
@@ -167,7 +183,9 @@ export function quickPollMenu() {
 			default: "create",
 			content: `<table id="df_macro_poll_create" style="margin-top: 0">
 						<thead>
-							<input type="text" id="df_macro_poll_create_title" placeholder="${game.i18n.localize("EasyPolls.Dialog.PollTitle")}" style="margin-bottom: 0.5em;">
+							<input type="text" id="df_macro_poll_create_title" placeholder="${game.i18n.localize(
+								"EasyPolls.Dialog.PollTitle",
+							)}" style="margin-bottom: 0.5em;">
 							<div>
 								<div style="float: left; width:33%;">
 									${game.i18n.localize("EasyPolls.Dialog.ResultType.name")}
@@ -199,7 +217,9 @@ export function quickPollMenu() {
 									</div>
 									<div>
 										<input type="radio" id="v2" name="voteType" value="secret">
-										<label for="v2" title="Voters are hidden from players">${game.i18n.localize("EasyPolls.Dialog.VoteType.options.2")}</label>
+										<label for="v2" title="Voters are hidden from players">${game.i18n.localize(
+											"EasyPolls.Dialog.VoteType.options.2",
+										)}</label>
 									</div>
 								</div>
 							</div>
@@ -212,12 +232,16 @@ export function quickPollMenu() {
 				select = dialogHtml.find("#df_macro_poll_create_select");
 				Object.keys(QuickPolls).forEach((part) => {
 					const t = table.find(".df_macro_poll_create_numeral").length + 1;
-					const l = $(`<option class="df_macro_poll_create_option" type="text" value="${part}" /> ${game.i18n.localize(QuickPolls[part].name)}</option>`);
+					const l = $(
+						`<option class="df_macro_poll_create_option" type="text" value="${part}" /> ${game.i18n.localize(
+							QuickPolls[part].name,
+						)}</option>`,
+					);
 					select.append(l);
 				});
 			},
 		},
-		{ resizable: !0 }
+		{ resizable: !0 },
 	).render(!0);
 }
 

@@ -1,6 +1,6 @@
 import constants from "./constants.mjs";
-import EasyPollError from "./utility/Error.js";
 import Poll from "./Poll.js";
+import EasyPollError from "./utility/Error.js";
 
 const capitalize = (s) => {
 	if (typeof s !== "string") return undefined;
