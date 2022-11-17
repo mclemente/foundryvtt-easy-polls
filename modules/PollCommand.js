@@ -32,7 +32,7 @@ export function createDialog(data = {}) {
 							parts.push($(this).val() || game.i18n.format(`EasyPolls.Dialog.option`, { number: t + 1 }));
 						});
 						const voteType = document.querySelector('input[name="voteType"]:checked').value;
-						const voteNumber = "multiple"; //document.querySelector('input[name="voteNumber"]:checked').value;
+						const voteNumber = document.querySelector('input[name="voteNumber"]:checked').value;
 						const resultType = document.querySelector('input[name="resultType"]:checked').value;
 						Poll.create({ question, parts, voteType, voteNumber, resultType });
 					},
