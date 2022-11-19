@@ -22,7 +22,14 @@
 		{{#if (eq ../voteNumber "multiple")}}
 		<input type="checkbox" data-answer="{{this.label}}" data-poll="{{../poll}}" {{checked checked}} />
 		{{else}}
-		<input type="radio" name="vote" data-answer="{{this.label}}" data-poll="{{../poll}}" {{checked checked}} />
+		<input
+			type="radio"
+			name="vote.{{../poll}}"
+			data-answer="{{this.label}}"
+			data-poll="{{../poll}}"
+			{{checked
+			checked}}
+		/>
 		{{/if}} {{this.label}}
 	</label>
 	{{/each}} {{/if}}
