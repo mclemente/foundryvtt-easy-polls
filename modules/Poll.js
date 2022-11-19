@@ -87,8 +87,10 @@ export default class Poll extends ChatMessage {
 			let data = poll.getFlag(constants.moduleName, "pollData");
 			if (data) {
 				let answers = data.answers;
-
-				answers = answers.filter((a) => !(a.user === user && a.label === answer));
+				// Picks all answers that weren't made by the user
+				if (data.voteNumber == "single") answers = answers.filter((a) => a.user !== user);
+				// Picks all answers that aren't the same as the answer being added
+				else answers = answers.filter((a) => !(a.user === user && a.label === answer));
 				answers.push(this.makeAnswer(answer, status, user));
 				data.answers = answers;
 				data = await this.recalculate(data);
