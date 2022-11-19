@@ -93,28 +93,26 @@ export default class Poll extends ChatMessage {
 				else answers = answers.filter((a) => !(a.user === user && a.label === answer));
 				answers.push(this.makeAnswer(answer, status, user));
 				data.answers = answers;
-				data = await this.recalculate(data);
-
-				// await poll.unsetFlag(constants.moduleName, "pollData");
+				data = this.recalculate(data);
 				await poll.setFlag(constants.moduleName, "pollData", data);
-				return;
 			}
-		}
-		throw new EasyPollError(game.i18n.format("EasyPolls.console.errors.noPoll"));
+		} else throw new EasyPollError(game.i18n.format("EasyPolls.console.errors.noPoll"));
 	}
 
-	static async recalculate(data) {
+	static recalculate(data) {
 		data = duplicate(data);
 
 		data.total = data.answers.filter((a) => a.status).length;
 		data.parts.forEach((p) => {
-			const votes = data.answers.filter((a) => p.label === a.label && a.status === true);
+			const votes = data.answers.filter((a) => a.status && p.label === a.label);
 			p.count = votes.length;
 			p.percent = Math.round((p.count / data.total || 0) * 100);
-			p.voters = votes.map((a) => {
-				let user = game.users.get(a.user);
-				return { id: user.id, name: user.data.name, charname: user.charname, color: user.data.color };
-			});
+			p.voters = votes
+				.map((a) => {
+					let user = game.users.get(a.user);
+					return { id: user.id, name: user.name, charname: user.charname, color: user.color };
+				})
+				.sort((a, b) => a.name.localeCompare(b.name, game.i18n.lang, { sensitivity: "base" }));
 		});
 
 		return data;

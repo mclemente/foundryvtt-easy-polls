@@ -3,22 +3,26 @@
 	{{#if results}} {{#each parts}}
 	<div class="answer">
 		<div class="bar-container">
-			<div class="bar" style="width: {{this.percent}}%"></div>
-			<div class="answer-data"
-				{{#if (or (eq ../voteType "normal") ../isGM ) }}
-				title="{{#each this.voters}}{{name}}{{#if charname}} ({{charname}}){{/if}}{{#unless @last}}, {{/unless}}{{/each}}"
-				{{/if}}">
+			<div class="bar" style="width: {{this.percent}}%;"></div>
+			<div class="answer-data">
 				<span class="label">{{this.label}}</span>
+				{{#if (or (eq ../voteType "normal") ../isGM ) }}
+				<div class="player-list flexrow">
+					{{#each this.voters}}
+					<span style="background: {{color}};" title="{{name}}{{#if charname}} ({{charname}}){{/if}}"></span>
+					{{/each}}
+				</div>
+				{{/if}}
 				<span class="count">{{this.count}}</span>
 			</div>
 		</div>
 	</div>
 	{{/each}} {{else}} {{#each parts}}
-	<label>
+	<label class="results">
 		{{#if (eq ../voteNumber "multiple")}}
 		<input type="checkbox" data-answer="{{this.label}}" data-poll="{{../poll}}" {{checked checked}} />
 		{{else}}
-		<input type="radio" style="width: 20px; height: 20px; margin: 3px 5px; top: 0" name="vote" data-answer="{{this.label}}" data-poll="{{../poll}}" {{checked checked}} />
+		<input type="radio" name="vote" data-answer="{{this.label}}" data-poll="{{../poll}}" {{checked checked}} />
 		{{/if}} {{this.label}}
 	</label>
 	{{/each}} {{/if}}
