@@ -34,7 +34,9 @@
 	</label>
 	{{/each}} {{/if}}
 </div>
-{{#unless (or isGM (eq resultType "gm"))}}
+{{#if (and isGM (eq resultType "gm"))}}
+<button class="showResults" data-poll="{{poll}}">{{localize "EasyPolls.ShowResults"}}</button>
+{{/if}} {{#unless (or isGM (eq resultType "gm"))}}
 <button class="toggle" data-poll="{{poll}}">{{localize "EasyPolls.ToggleResults"}}</button>
 {{/unless}}
 <div class="stats">

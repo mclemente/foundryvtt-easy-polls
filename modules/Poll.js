@@ -79,6 +79,13 @@ export default class Poll extends ChatMessage {
 			await game.user.setFlag(constants.moduleName, "pollResults", isDisplayingResults);
 			this.renderPoll(chatMessage, html, false);
 		});
+
+		html.on("click", "button.showResults", async (event) => {
+			let poll = game.messages.get(event.currentTarget.dataset.poll);
+			let data = poll.getFlag(constants.moduleName, "pollData");
+			data.resultType = "open";
+			await poll.setFlag(constants.moduleName, "pollData", data);
+		});
 	}
 
 	static async answer(id, answer, status, user) {

@@ -1,6 +1,7 @@
 {
 	"EasyPolls": {
 		"CountAnswered": "Total Answers",
+		"ShowResults": "Turn Results Public",
 		"ToggleResults": "Toggle Display Results",
 
 		"Notifications": {
