@@ -2,11 +2,9 @@
 	"EasyPolls": {
 		"CountAnswered": "Total de Respostas",
 		"ToggleResults": "Resultados",
-
 		"Notifications": {
 			"NoGM": "Não há nenhum Mestre online. A presença de um Mestre é necessária para votar."
 		},
-
 		"Dialog": {
 			"title": "Criar Votação Fácil",
 			"PollTitle": "Título da Votação",
@@ -28,7 +26,6 @@
 				}
 			}
 		},
-
 		"Keybindings": {
 			"CreatePoll": {
 				"name": "Criar Votação",
@@ -39,7 +36,6 @@
 				"hint": "Abre uma janela para criar votações usando um modelo."
 			}
 		},
-
 		"QuickPolls": {
 			"title": "Criar Votação Rápida",
 			"Poll": "Votação",
@@ -47,7 +43,13 @@
 				"name": "Sim ou Não"
 			}
 		},
-
-		"Settings": {}
+		"ShowResults": "Tornar Resultados Públicos",
+		"console": {
+			"errors": {
+				"undefined-event": "Erro de API: Evento Errado de Socket Recebido: {event}",
+				"noGM": "Nenhum MJ ativo. Parando a execução.",
+				"noPoll": "Votação com ID {id} não existe ou a mensagem não é uma votação."
+			}
+		}
 	}
 }
