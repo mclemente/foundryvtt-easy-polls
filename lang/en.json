@@ -45,7 +45,6 @@
 			}
 		},
 		"console": {
-			"__COMMENT__": "Messages below are not typically expected to be seen by players",
 			"errors": {
 				"undefined-event": "API Error: Wrong Socket Event Received: {event}",
 				"noGM": "No active GMs. Stopping execution.",
