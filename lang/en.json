@@ -3,11 +3,9 @@
 		"CountAnswered": "Total Answers",
 		"ShowResults": "Turn Results Public",
 		"ToggleResults": "Toggle Display Results",
-
 		"Notifications": {
 			"NoGM": "There is no active Gamer Master online. Game Master's presence is required to vote."
 		},
-
 		"Dialog": {
 			"title": "Create Easy Poll",
 			"PollTitle": "Poll Title",
@@ -29,7 +27,6 @@
 				}
 			}
 		},
-
 		"Keybindings": {
 			"CreatePoll": {
 				"name": "Create Poll",
@@ -40,7 +37,6 @@
 				"hint": "Opens a Dialog for creating a poll using a template."
 			}
 		},
-
 		"QuickPolls": {
 			"title": "Create Quick Poll",
 			"Poll": "Poll",
@@ -48,14 +44,10 @@
 				"name": "Yes or No"
 			}
 		},
-
-		"Settings": {},
-
 		"console": {
-			"__COMMENT__": "Messages below are not typically expected to be seen by playes",
 			"errors": {
 				"undefined-event": "API Error: Wrong Socket Event Received: {event}",
-				"noGM": "No active GMs, stopping execution!",
+				"noGM": "No active GMs. Stopping execution.",
 				"noPoll": "Poll with ID {id} does not exist, or message is not a poll."
 			}
 		}
