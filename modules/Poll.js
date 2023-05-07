@@ -8,7 +8,13 @@ export default class Poll extends ChatMessage {
 		const partsData = parts.map((p) => ({ label: p, percent: 0, count: 0 }));
 		const isGM = game.user.isGM;
 		const pollData = { total: 0, question, parts: partsData, answers: [], voteType, voteNumber, resultType };
-		const template = await renderTemplate(`${constants.modulePath}/templates/poll.html`, { ...pollData, isGM });
+		const template = await renderTemplate(`${constants.modulePath}/templates/poll.html`, {
+			...pollData,
+			isGM,
+			message: {
+				timestamp: new Date().getTime(),
+			},
+		});
 
 		try {
 			const messageEntity = await super.create({ content: template }, options);
@@ -22,40 +28,35 @@ export default class Poll extends ChatMessage {
 	}
 
 	static async renderPoll(chatMessage, html, listeners = true) {
-		$(html).addClass("easy-poll");
-		let data = chatMessage.getFlag(constants.moduleName, "pollData");
+		const $html = $(html).addClass("easy-poll");
+		const data = chatMessage.getFlag(constants.moduleName, "pollData");
 		if (!data) return;
 
-		let isDisplayingResults = game.user.getFlag(constants.moduleName, "pollResults") || [];
-		data = duplicate(data);
-		data.isGM = game.user.isGM;
-		data.results = isDisplayingResults.includes(chatMessage.id);
-		data.poll = chatMessage.id;
-		data.parts.forEach((p) => {
-			let answer = data.answers.find((a) => a.user === game.user.id && a.label === p.label);
-			p.checked = answer ? answer.status : false;
-		});
-		if (data?.type) delete data.type;
-		if (!data?.voteType) data.voteType = "normal";
-		if (!data?.voteNumber) data.voteNumber = "multiple";
-		if (!data?.resultType) data.resultType = "open";
+		const isDisplayingResults = game.user.getFlag(constants.moduleName, "pollResults") || [];
+		const newData = {
+			...deepClone(data),
+			message: chatMessage,
+			isGM: game.user.isGM,
+			canDelete: game.user.isGM,
+			results: isDisplayingResults.includes(chatMessage.id),
+			poll: chatMessage.id,
+			parts: data.parts.map((p) => ({
+				...p,
+				checked: data.answers.some((a) => a.user === game.user.id && a.label === p.label),
+			})),
+			voteType: data.voteType ?? "normal",
+			voteNumber: data.voteNumber ?? "multiple",
+			resultType: data.resultType ?? "open",
+		};
 
-		let newHtml = await renderTemplate(`${constants.modulePath}/templates/poll.html`, data);
-		$(html).find(".message-content").html(newHtml);
+		const newHtml = await renderTemplate(`${constants.modulePath}/templates/poll.html`, newData);
+		$html.html(newHtml);
 
 		if (!listeners) return;
 
-		html.on("click", "input[type=checkbox]", (event) => {
-			let answer = event.currentTarget.dataset.answer;
-			let poll = event.currentTarget.dataset.poll;
-			let checked = event.currentTarget.checked;
-			if (game.user.isGM) Poll.answer(poll, answer, checked, game.user.id);
-			else Socket.sendAnswer(poll, answer, checked);
-		});
-		html.on("click", "input[type=radio]", (event) => {
-			let answer = event.currentTarget.dataset.answer;
-			let poll = event.currentTarget.dataset.poll;
-			let checked = event.currentTarget.checked;
+		html.on("click", "input[type=checkbox], input[type=radio]", (event) => {
+			const { answer, poll } = event.currentTarget.dataset;
+			const checked = event.currentTarget.checked;
 			if (game.user.isGM) Poll.answer(poll, answer, checked, game.user.id);
 			else Socket.sendAnswer(poll, answer, checked);
 		});
@@ -76,10 +77,9 @@ export default class Poll extends ChatMessage {
 		});
 
 		html.on("click", "button.showResults", async (event) => {
-			let poll = game.messages.get(event.currentTarget.dataset.poll);
-			let data = poll.getFlag(constants.moduleName, "pollData");
-			data.resultType = "open";
-			await poll.setFlag(constants.moduleName, "pollData", data);
+			const poll = game.messages.get(event.currentTarget.dataset.poll);
+			const data = poll.getFlag(constants.moduleName, "pollData");
+			await poll.setFlag(constants.moduleName, "pollData", { ...data, resultType: "open" });
 		});
 	}
 

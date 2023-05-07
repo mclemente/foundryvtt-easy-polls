@@ -261,32 +261,30 @@ export function quickPollMenu() {
 export class PollCommand {
 	static registerCommand() {
 		Hooks.on("chatMessage", (chatLog, messageText, chatData) => {
-			let pollRegex = new RegExp("^(\\/p(?:oll)?(?: )?-)", "i");
-			let match = messageText.match(pollRegex);
+			let match = messageText.match(new RegExp("^(\\/p(?:oll)?(?: )?-)", "i"));
 			if (match) {
-				let content = messageText.replace(match[1], "");
-				let command = content.split(/\n/)[0];
-				let data = QuickPolls[command] ?? {};
+				const content = messageText.replace(match[1], "");
+				const command = content.split(/\n/)[0];
+				const data = QuickPolls[command] ?? {};
 				setTimeout(() => createDialog(data), 0);
 				return false;
 			}
 
-			pollRegex = new RegExp("^(\\/p(?:oll)?(?: )?)", "i");
-			match = messageText.match(pollRegex);
+			match = messageText.match(new RegExp("^(\\/p(?:oll)?(?: )?)", "i"));
 			if (match) {
-				let content = messageText.replace(match[1], "");
-				let data = {};
-				let parts = content.split(/\n/);
-				data.parts = parts.map((s) => s.trim()).filter((s) => s.length);
-				data.question = data.parts.shift();
-
+				const content = messageText.replace(match[1], "");
+				const parts = content.split(/\n/);
+				const data = {
+					question: parts.shift(),
+					parts: parts.map((s) => s.trim()).filter((s) => s.length),
+				};
 				setTimeout(() => createDialog(data), 0);
 				return false;
 			}
 		});
 
 		Hooks.on("renderChatMessage", (chatMessage, html, messageData) => {
-			let isPoll = chatMessage.getFlag(constants.moduleName, "isPoll");
+			const isPoll = chatMessage.getFlag(constants.moduleName, "isPoll");
 			if (isPoll) {
 				Poll.renderPoll(chatMessage, html);
 				return false;
@@ -296,7 +294,6 @@ export class PollCommand {
 
 	static checkCommand(messageText) {
 		const poll = new RegExp("^(\\/p(?:oll)? )", "i");
-
 		return messageText.match(poll);
 	}
 }
