@@ -64,7 +64,7 @@ export default class Poll extends ChatMessage {
 		html.on("click", "button.toggle", async (event) => {
 			let poll = event.currentTarget.dataset.poll;
 			let isDisplayingResults = game.user.getFlag(constants.moduleName, "pollResults") || [];
-			isDisplayingResults = duplicate(isDisplayingResults);
+			isDisplayingResults = deepClone(isDisplayingResults);
 
 			if (isDisplayingResults.includes(poll)) {
 				isDisplayingResults = isDisplayingResults.filter((p) => p !== poll);
@@ -102,7 +102,7 @@ export default class Poll extends ChatMessage {
 	}
 
 	static recalculate(data) {
-		data = duplicate(data);
+		data = deepClone(data);
 
 		data.total = data.answers.filter((a) => a.status).length;
 		data.parts.forEach((p) => {
