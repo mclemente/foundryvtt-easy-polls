@@ -4,28 +4,21 @@ import EasyPollError from "./utility/Error.js";
 
 export default class Poll extends ChatMessage {
 	static async create(data, options = {}) {
-		data = {
-			total: 0,
-			question: data.question,
-			parts: data.parts.map((p) => {
-				return { label: p, percent: 0, count: 0 };
-			}),
-			answers: [],
-			voteType: data?.voteType || "normal",
-			voteNumber: data?.voteNumber || "multiple",
-			resultType: data?.resultType || "open",
-		};
-		let message = await renderTemplate(`${constants.modulePath}/templates/poll.html`, data);
+		const { question, parts, voteType = "normal", voteNumber = "multiple", resultType = "open" } = data;
+		const partsData = parts.map((p) => ({ label: p, percent: 0, count: 0 }));
+		const isGM = game.user.isGM;
+		const pollData = { total: 0, question, parts: partsData, answers: [], voteType, voteNumber, resultType };
+		const template = await renderTemplate(`${constants.modulePath}/templates/poll.html`, { ...pollData, isGM });
 
-		let messageData = {
-			content: message,
-		};
-
-		let messageEntity = await super.create(messageData, options);
-		await messageEntity.setFlag(constants.moduleName, "isPoll", true);
-		await messageEntity.setFlag(constants.moduleName, "pollData", data);
-
-		return messageEntity;
+		try {
+			const messageEntity = await super.create({ content: template }, options);
+			await messageEntity.setFlag(constants.moduleName, "isPoll", true);
+			await messageEntity.setFlag(constants.moduleName, "pollData", pollData);
+			return messageEntity;
+		} catch (error) {
+			console.error("Easy Polls | Error creating poll message entity:", error);
+			return null;
+		}
 	}
 
 	static async renderPoll(chatMessage, html, listeners = true) {
@@ -36,7 +29,7 @@ export default class Poll extends ChatMessage {
 		let isDisplayingResults = game.user.getFlag(constants.moduleName, "pollResults") || [];
 		data = duplicate(data);
 		data.isGM = game.user.isGM;
-		data.results = game.user.isGM || isDisplayingResults.includes(chatMessage.id);
+		data.results = isDisplayingResults.includes(chatMessage.id);
 		data.poll = chatMessage.id;
 		data.parts.forEach((p) => {
 			let answer = data.answers.find((a) => a.user === game.user.id && a.label === p.label);
@@ -56,13 +49,15 @@ export default class Poll extends ChatMessage {
 			let answer = event.currentTarget.dataset.answer;
 			let poll = event.currentTarget.dataset.poll;
 			let checked = event.currentTarget.checked;
-			Socket.sendAnswer(poll, answer, checked);
+			if (game.user.isGM) Poll.answer(poll, answer, checked, game.user.id);
+			else Socket.sendAnswer(poll, answer, checked);
 		});
 		html.on("click", "input[type=radio]", (event) => {
 			let answer = event.currentTarget.dataset.answer;
 			let poll = event.currentTarget.dataset.poll;
 			let checked = event.currentTarget.checked;
-			Socket.sendAnswer(poll, answer, checked);
+			if (game.user.isGM) Poll.answer(poll, answer, checked, game.user.id);
+			else Socket.sendAnswer(poll, answer, checked);
 		});
 
 		html.on("click", "button.toggle", async (event) => {

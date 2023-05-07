@@ -3,10 +3,9 @@ import Poll from "./Poll.js";
 import { QuickPolls } from "./utility/QuickPolls.js";
 
 export function createDialog(data = {}) {
-	let dialogHtml = null,
-		table = null,
+	let table = null,
 		dialog = null,
-		first = !0;
+		first = true;
 	const processOptions = function () {
 		table.find(".df_macro_poll_create_numeral").each(function (t) {
 			$(this).text(`${t + 1}. `);
@@ -35,6 +34,7 @@ export function createDialog(data = {}) {
 						const voteType = document.querySelector('input[name="voteType"]:checked').value;
 						const voteNumber = document.querySelector('input[name="voteNumber"]:checked').value;
 						const resultType = document.querySelector('input[name="resultType"]:checked').value;
+
 						Poll.create({ question, parts, voteType, voteNumber, resultType });
 					},
 				},
@@ -42,112 +42,123 @@ export function createDialog(data = {}) {
 			callback: () => {},
 			default: "create",
 			content: `<table id="df_macro_poll_create" style="margin-top: 0">
-						<thead>
-							<input type="text" id="df_macro_poll_create_title" placeholder="${game.i18n.localize("EasyPolls.Dialog.PollTitle")}"
-							value="${
-								data?.question ? data.question : game.i18n.localize(`EasyPolls.Dialog.GeneralPoll`)
-							}" style="margin-bottom: 0.5em;">
+						<input type="text" id="df_macro_poll_create_title" placeholder="${game.i18n.localize("EasyPolls.Dialog.PollTitle")}"
+						value="${
+							data?.question ? data.question : game.i18n.localize(`EasyPolls.Dialog.GeneralPoll`)
+						}" style="margin-bottom: 0.5em;">
+						<div class="flexrow">
 							<div>
-								<div style="float: left; width:33%;">
-									${game.i18n.localize("EasyPolls.Dialog.ResultType.name")}
-									<div>
-										<input type="radio" id="r1" name="resultType" value="open" checked>
-										<label for="r1">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.1")}</label>
-									</div>
-									<div>
-										<input type="radio" id="r2" name="resultType" value="gm">
-										<label for="r2">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.2")}</label>
-									</div>
+								${game.i18n.localize("EasyPolls.Dialog.ResultType.name")}
+								<div>
+									<input type="radio" id="r1" name="resultType" value="open" checked>
+									<label for="r1">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.1")}</label>
 								</div>
-								<div style="float: left; width:33%;">
-									Number of Votes
-									<div>
-										<input type="radio" id="vn1" name="voteNumber" value="single" checked>
-										<label for="vn1">Single Vote</label>
-									</div>
-									<div>
-										<input type="radio" id="vn2" name="voteNumber" value="multiple">
-										<label for="vn2">Multiple Votes</label>
-									</div>
-								</div>
-								<div style="float: right; width:33%;">
-									${game.i18n.localize("EasyPolls.Dialog.VoteType.name")}
-									<div>
-										<input type="radio" id="v1" name="voteType" value="normal" ${data?.type == "normal" || !data?.type ? "checked" : ""}>
-										<label for="v1" title="Voters are shown to players">${game.i18n.localize("EasyPolls.Dialog.VoteType.options.1")}</label>
-									</div>
-									<div>
-										<input type="radio" id="v2" name="voteType" value="secret" ${data?.type == "secret" ? "checked" : ""}>
-										<label for="v2" title="Voters are hidden from players">${game.i18n.localize(
-											"EasyPolls.Dialog.VoteType.options.2",
-										)}</label>
-									</div>
+								<div>
+									<input type="radio" id="r2" name="resultType" value="gm">
+									<label for="r2">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.2")}</label>
 								</div>
 							</div>
-							<button id="df_macro_poll_add" style="margin:0.5em 0">
-								<i class="fas fa-add"></i> ${game.i18n.localize("EasyPolls.Dialog.addOption")}
-							</button>
-						</thead>
+							<div>
+								${game.i18n.localize("EasyPolls.Dialog.NumOfVotes.name")}
+								<div>
+									<input type="radio" id="vn1" name="voteNumber" value="single" checked>
+									<label for="vn1">${game.i18n.localize("EasyPolls.Dialog.NumOfVotes.options.1")}</label>
+								</div>
+								<div>
+									<input type="radio" id="vn2" name="voteNumber" value="multiple">
+									<label for="vn2">${game.i18n.localize("EasyPolls.Dialog.NumOfVotes.options.2")}</label>
+								</div>
+							</div>
+							<div>
+								${game.i18n.localize("EasyPolls.Dialog.VoteType.name")}
+								<div>
+									<input type="radio" id="v1" name="voteType" value="normal" ${data?.type == "normal" || !data?.type ? "checked" : ""}>
+									<label for="v1" title="Voters are shown to players">${game.i18n.localize("EasyPolls.Dialog.VoteType.options.1")}</label>
+								</div>
+								<div>
+									<input type="radio" id="v2" name="voteType" value="secret" ${data?.type == "secret" ? "checked" : ""}>
+									<label for="v2" title="Voters are hidden from players">${game.i18n.localize(
+										"EasyPolls.Dialog.VoteType.options.2"
+									)}</label>
+								</div>
+							</div>
+						</div>
+						<button id="df_macro_poll_add" style="margin:0.5em 0">
+							<i class="fas fa-add"></i> ${game.i18n.localize("EasyPolls.Dialog.addOption")}
+						</button>
 					</table>`,
 			render: (t) => {
-				dialogHtml = $(t);
+				const dialogHtml = $(t);
 				table = dialogHtml.find("#df_macro_poll_create");
-				t.find("#df_macro_poll_add").click(() => {
-					const t = table.find(".df_macro_poll_create_numeral").length + 1;
-					const l = $(
-						`<tr>\n\t\t
-							<td class="df_macro_poll_create_numeral">${t}.</td>\n\t\t
-							<td>
-								<input class="df_macro_poll_create_option" type="text" placeholder="${game.i18n.format("EasyPolls.Dialog.option", {
-									number: t,
-								})}" />
-							</td>\n\t\t
-							<td>
-								<button class="df_macro_poll_create_delete"><i class="fas fa-times"></i></button>
-							</td>\n\t
-						</tr>`,
+
+				const addPollOption = () => {
+					const numOptions = table.find(".df_macro_poll_create_numeral").length + 1;
+					const newOption = $(
+						`<tr>
+						<td class="df_macro_poll_create_numeral">${numOptions}.</td>
+						<td>
+						  <input class="df_macro_poll_create_option" type="text" placeholder="${game.i18n.format("EasyPolls.Dialog.option", {
+								number: numOptions,
+							})}" />
+						</td>
+						<td>
+						  <button class="df_macro_poll_create_delete"><i class="fas fa-times"></i></button>
+						</td>
+					  </tr>`
 					);
-					table.append(l);
-					l.find(".df_macro_poll_create_delete").click(() => {
-						dialog.setPosition({ height: dialog.position.height - l.height() }),
-							l.remove(),
-							processOptions();
+					table.append(newOption);
+					newOption.find(".df_macro_poll_create_delete").click(() => {
+						dialog.setPosition({ height: dialog.position.height - newOption.height() });
+						newOption.remove();
+						processOptions();
 					});
-					first
-						? (first = !1)
-						: (dialog.setPosition({ height: dialog.position.height + l.height() }), processOptions());
-				});
-				if (data?.parts?.length) {
-					data.parts.forEach((part) => {
-						const t = table.find(".df_macro_poll_create_numeral").length + 1;
-						const l = $(`<tr>\n\t\t
-							<td class="df_macro_poll_create_numeral">${t}.</td>\n\t\t
-							<td>
-								<input class="df_macro_poll_create_option" type="text" placeholder="${game.i18n.format("EasyPolls.Dialog.option", {
-									number: t,
-								})}" value="${part}" />
-							</td>\n\t\t
-							<td>
-								<button class="df_macro_poll_create_delete"><i class="fas fa-times"></i></button>
-							</td>\n\t
-						</tr>`);
-						table.append(l);
-						l.find(".df_macro_poll_create_delete").click(() => {
-							dialog.setPosition({ height: dialog.position.height - l.height() }),
-								l.remove(),
-								processOptions();
+					if (!first) {
+						dialog.setPosition({ height: dialog.position.height + newOption.height() });
+						processOptions();
+					}
+				};
+
+				const addDefaultOptions = () => {
+					dialogHtml.find("#df_macro_poll_add").click();
+					dialogHtml.find("#df_macro_poll_add").click();
+				};
+
+				const addSavedOptions = (options) => {
+					options.forEach((option) => {
+						const numOptions = table.find(".df_macro_poll_create_numeral").length + 1;
+						const savedOption = $(
+							`<tr>
+						  <td class="df_macro_poll_create_numeral">${numOptions}.</td>
+						  <td>
+							<input class="df_macro_poll_create_option" type="text" placeholder="${game.i18n.format("EasyPolls.Dialog.option", {
+								number: numOptions,
+							})}" value="${option}" />
+						  </td>
+						  <td>
+							<button class="df_macro_poll_create_delete"><i class="fas fa-times"></i></button>
+						  </td>
+						</tr>`
+						);
+						table.append(savedOption);
+						savedOption.find(".df_macro_poll_create_delete").click(() => {
+							dialog.setPosition({ height: dialog.position.height - savedOption.height() });
+							savedOption.remove();
+							processOptions();
 						});
 					});
-					first
-						? (first = !1)
-						: (dialog.setPosition({ height: dialog.position.height + l.height() }), processOptions());
-				} else {
-					dialogHtml.find("#df_macro_poll_add").click();
-				}
+					if (!first) {
+						dialog.setPosition({ height: dialog.position.height + table.height() });
+						processOptions();
+					}
+				};
+
+				t.find("#df_macro_poll_add").click(addPollOption);
+				if (data?.parts?.length) addSavedOptions(data.parts);
+				else addDefaultOptions();
 			},
 		},
-		{ resizable: !0 },
-	).render(!0);
+		{ id: "easy-poll", width: 300, classes: ["dialog", "easy-poll"], resizable: true }
+	).render(true);
 }
 
 export function quickPollMenu() {
@@ -186,49 +197,47 @@ export function quickPollMenu() {
 			callback: () => {},
 			default: "create",
 			content: `<table id="df_macro_poll_create" style="margin-top: 0">
-						<thead>
-							<input type="text" id="df_macro_poll_create_title" placeholder="${game.i18n.localize(
-								"EasyPolls.Dialog.PollTitle",
-							)}" style="margin-bottom: 0.5em;">
-							<div>
-								<div style="float: left; width:33%;">
-									${game.i18n.localize("EasyPolls.Dialog.ResultType.name")}
-									<div>
-										<input type="radio" id="r1" name="resultType" value="open" checked>
-										<label for="r1">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.1")}</label>
-									</div>
-									<div>
-										<input type="radio" id="r2" name="resultType" value="gm">
-										<label for="r2">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.2")}</label>
-									</div>
+						<input type="text" id="df_macro_poll_create_title" placeholder="${game.i18n.localize(
+							"EasyPolls.Dialog.PollTitle"
+						)}" style="margin-bottom: 0.5em;">
+						<div>
+							<div style="float: left; width:33%;">
+								${game.i18n.localize("EasyPolls.Dialog.ResultType.name")}
+								<div>
+									<input type="radio" id="r1" name="resultType" value="open" checked>
+									<label for="r1">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.1")}</label>
 								</div>
-								<div style="float: left; width:33%;">
-									Number of Votes
-									<div>
-										<input type="radio" id="vn1" name="voteNumber" value="single" checked>
-										<label for="vn1">Single Vote</label>
-									</div>
-									<div>
-										<input type="radio" id="vn2" name="voteNumber" value="multiple">
-										<label for="vn2">Multiple Votes</label>
-									</div>
-								</div>
-								<div style="float: right; width:33%;">
-									${game.i18n.localize("EasyPolls.Dialog.VoteType.name")}
-									<div>
-										<input type="radio" id="v1" name="voteType" value="normal" checked>
-										<label for="v1" title="Voters are shown to players">${game.i18n.localize("EasyPolls.Dialog.VoteType.options.1")}</label>
-									</div>
-									<div>
-										<input type="radio" id="v2" name="voteType" value="secret">
-										<label for="v2" title="Voters are hidden from players">${game.i18n.localize(
-											"EasyPolls.Dialog.VoteType.options.2",
-										)}</label>
-									</div>
+								<div>
+									<input type="radio" id="r2" name="resultType" value="gm">
+									<label for="r2">${game.i18n.localize("EasyPolls.Dialog.ResultType.options.2")}</label>
 								</div>
 							</div>
-							<span>Template</span><select name="polls" id="df_macro_poll_create_select" style="width: calc(100% - 2px); margin-bottom: 0.5em;">
-						</thead>
+							<div style="float: left; width:33%;">
+								Number of Votes
+								<div>
+									<input type="radio" id="vn1" name="voteNumber" value="single" checked>
+									<label for="vn1">Single Vote</label>
+								</div>
+								<div>
+									<input type="radio" id="vn2" name="voteNumber" value="multiple">
+									<label for="vn2">Multiple Votes</label>
+								</div>
+							</div>
+							<div style="float: right; width:33%;">
+								${game.i18n.localize("EasyPolls.Dialog.VoteType.name")}
+								<div>
+									<input type="radio" id="v1" name="voteType" value="normal" checked>
+									<label for="v1" title="Voters are shown to players">${game.i18n.localize("EasyPolls.Dialog.VoteType.options.1")}</label>
+								</div>
+								<div>
+									<input type="radio" id="v2" name="voteType" value="secret">
+									<label for="v2" title="Voters are hidden from players">${game.i18n.localize(
+										"EasyPolls.Dialog.VoteType.options.2"
+									)}</label>
+								</div>
+							</div>
+						</div>
+						<span>Template</span><select name="polls" id="df_macro_poll_create_select" style="width: calc(100% - 2px); margin-bottom: 0.5em;">
 					</table>`,
 			render: (t) => {
 				dialogHtml = $(t);
@@ -238,15 +247,15 @@ export function quickPollMenu() {
 					const t = table.find(".df_macro_poll_create_numeral").length + 1;
 					const l = $(
 						`<option class="df_macro_poll_create_option" type="text" value="${part}" /> ${game.i18n.localize(
-							QuickPolls[part].name,
-						)}</option>`,
+							QuickPolls[part].name
+						)}</option>`
 					);
 					select.append(l);
 				});
 			},
 		},
-		{ resizable: !0 },
-	).render(!0);
+		{ resizable: true }
+	).render(true);
 }
 
 export class PollCommand {

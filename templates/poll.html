@@ -1,5 +1,5 @@
 <h2>{{question}}</h2>
-<div class="answers" data-type="{{type}}">
+<div class="answers">
 	{{#if results}} {{#each parts}}
 	<div class="answer">
 		<div class="bar-container">
@@ -30,15 +30,16 @@
 			{{checked
 			checked}}
 		/>
-		{{/if}} {{this.label}}
+		{{/if}}
+		<span class="label">{{this.label}}</span>
 	</label>
 	{{/each}} {{/if}}
 </div>
 {{#if (and isGM (eq resultType "gm"))}}
 <button class="showResults" data-poll="{{poll}}">{{localize "EasyPolls.ShowResults"}}</button>
-{{/if}} {{#unless (or isGM (eq resultType "gm"))}}
+{{/if}} {{#if (or isGM (eq resultType "open"))}}
 <button class="toggle" data-poll="{{poll}}">{{localize "EasyPolls.ToggleResults"}}</button>
-{{/unless}}
+{{/if}}
 <div class="stats">
 	<span>{{localize "EasyPolls.CountAnswered"}}: <i class="count-answered">{{total}}</i></span>
 </div>
