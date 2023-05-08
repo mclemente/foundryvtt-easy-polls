@@ -12,17 +12,24 @@
 			"option": "Opção {number}",
 			"addOption": "Adicionar Opções",
 			"ResultType": {
-				"name": "Tipo do Resultado",
+				"name": "Mostrar Resultados",
 				"options": {
-					"1": "Mostrar aos Jogadores",
-					"2": "Apenas GM"
+					"1": "Sim",
+					"2": "Não"
 				}
 			},
 			"VoteType": {
-				"name": "Tipo de Voto",
+				"name": "Sistema de Votação",
 				"options": {
-					"1": "Voto Aberto",
-					"2": "Voto Secreto"
+					"1": "Aberta",
+					"2": "Secreta"
+				}
+			},
+			"NumOfVotes": {
+				"name": "Votos",
+				"options": {
+					"1": "Único",
+					"2": "Múltiplos"
 				}
 			}
 		},
