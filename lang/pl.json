@@ -2,11 +2,61 @@
 	"EasyPolls": {
 		"CountAnswered": "Łącznie odpowiedzi",
 		"ToggleResults": "Przełącz wyniki",
-
 		"Notifications": {
 			"NoGM": "Nie ma żadnego MG online. Obecność MG jest wymagana, aby móc zagłosować."
 		},
-
-		"Settings": {}
+		"ShowResults": "Upublicznianie wyników",
+		"Dialog": {
+			"VoteType": {
+				"name": "System głosowania",
+				"options": {
+					"1": "Otwarty",
+					"2": "Sekret"
+				}
+			},
+			"title": "Utwórz Easy Poll",
+			"PollTitle": "Tytuł ankiety",
+			"GeneralPoll": "Ankieta ogólna",
+			"option": "Opcja {number}",
+			"addOption": "Dodaj opcje",
+			"ResultType": {
+				"name": "Pokaż wyniki",
+				"options": {
+					"1": "Tak",
+					"2": "Nie"
+				}
+			},
+			"NumOfVotes": {
+				"name": "Głosy",
+				"options": {
+					"1": "Pojedynczy",
+					"2": "Wiele"
+				}
+			}
+		},
+		"Keybindings": {
+			"CreatePoll": {
+				"hint": "Otwiera okno dialogowe umożliwiające utworzenie ankiety.",
+				"name": "Utwórz ankietę"
+			},
+			"QuickPolls": {
+				"name": "Utwórz szybką ankietę",
+				"hint": "Otwiera okno dialogowe umożliwiające utworzenie ankiety przy użyciu szablonu."
+			}
+		},
+		"console": {
+			"errors": {
+				"undefined-event": "Błąd API: Odebrano nieprawidłowe zdarzenie: {event}",
+				"noPoll": "Ankieta o identyfikatorze {id} nie istnieje lub wiadomość nie jest ankietą.",
+				"noGM": "Brak aktywnych GMów. Zatrzymanie wykonywania."
+			}
+		},
+		"QuickPolls": {
+			"title": "Utwórz szybką ankietę",
+			"Poll": "Ankieta",
+			"yn": {
+				"name": "Tak lub Nie"
+			}
+		}
 	}
 }
